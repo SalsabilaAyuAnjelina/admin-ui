@@ -1,9 +1,8 @@
 import "./list.scss";
 
 const List = () => {
-  return (
+  return
     <div>List</div>
-  )
-}
+};
 
-export default List
+export default List;

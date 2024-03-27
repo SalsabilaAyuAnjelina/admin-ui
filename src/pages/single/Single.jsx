@@ -1,9 +1,8 @@
 import "./single.scss";
 
 const Single = () => {
-  return (
+  return
     <div>Single</div>
-  )
-}
+};
 
-export default Single
+export default Single;
