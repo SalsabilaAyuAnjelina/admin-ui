@@ -3,13 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useEffect, useState } from "react";
-import { 
-  doc,
-  serverTimestamp,
-  setDoc,
-  addDoc,
-  collection
-} from "firebase/firestore";
+import { doc,serverTimestamp,setDoc, addDoc, collection} from "firebase/firestore";
 import { auth, db, storage } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -19,11 +13,11 @@ const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [data, setData] = useState({});
   const [per, setPerc] = useState(null);
-
-  const navigate = useNavigate()
-
+  
+  const navigate = useNavigate();
   const location = useLocation(); 
   const type = location.pathname.split('/')[1]; 
+
 
   useEffect(() => {
     const uploadFile = () => {
@@ -108,7 +102,7 @@ const New = ({ inputs, title }) => {
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>{title}</h1>
+          <h2>{title}</h2>
         </div>
         <div className="bottom">
           <div className="left">
