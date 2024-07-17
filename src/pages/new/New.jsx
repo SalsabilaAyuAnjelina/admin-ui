@@ -3,7 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useEffect, useState } from "react";
-import { doc,serverTimestamp,setDoc, addDoc, collection} from "firebase/firestore";
+import { doc, serverTimestamp, setDoc, addDoc, collection } from "firebase/firestore";
 import { auth, db, storage } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -13,11 +13,10 @@ const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [data, setData] = useState({});
   const [per, setPerc] = useState(null);
-  
-  const navigate = useNavigate();
-  const location = useLocation(); 
-  const type = location.pathname.split('/')[1]; 
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const type = location.pathname.split("/")[1];
 
   useEffect(() => {
     const uploadFile = () => {
@@ -67,32 +66,31 @@ const New = ({ inputs, title }) => {
     setData({ ...data, [id]: value });
   };
 
-  const handleAdd = async (e) => {
-    e.preventDefault();
+  const handleAdd = async (imageUrl = null) => {
     try {
-      switch (type) {
-        case "users":
-          const res = await createUserWithEmailAndPassword(
-            auth,
-            data.email,
-            data.password
-          );
-          await setDoc(doc(db, type, res.user.uid), {
-            ...data,
-            timeStamp: serverTimestamp(),
-          });
-          break; 
-        default:
-          await addDoc(collection(db, type), {
-            ...data,
-            timeStamp: serverTimestamp(),
-          });
-          break;
-      } 
-      
-      navigate(-1)
+      const categoryData = { ...data, timeStamp: serverTimestamp() };
+
+      if (imageUrl) {
+        categoryData.img = imageUrl; // Tambahkan img hanya jika ada
+      }
+
+      if (type === "users") {
+        const res = await createUserWithEmailAndPassword(auth, data.email, data.password);
+        await setDoc(doc(db, type, res.user.uid), categoryData);
+      } else {
+        await addDoc(collection(db, type), categoryData);
+      }
+
+      navigate(-1);
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!file) {
+      handleAdd(); // Panggil handleAdd tanpa URL gambar jika tidak ada file
     }
   };
 
@@ -105,39 +103,20 @@ const New = ({ inputs, title }) => {
           <h2>{title}</h2>
         </div>
         <div className="bottom">
-          <div className="left">
-            <img
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
-          </div>
+          <div className="left">{file ? <img src={URL.createObjectURL(file)} alt="" /> : <img src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg" alt="No Image" />}</div>
           <div className="right">
-            <form onSubmit={handleAdd}>
+            <form onSubmit={handleSubmit}>
               <div className="formInput">
                 <label htmlFor="file">
                   Image: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  style={{ display: "none" }}
-                />
+                <input type="file" id="file" onChange={(e) => setFile(e.target.files[0])} style={{ display: "none" }} />
               </div>
 
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
-                  <input
-                    id={input.id}
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    onChange={handleInput}
-                  />
+                  <input id={input.id} type={input.type} placeholder={input.placeholder} onChange={handleInput} />
                 </div>
               ))}
               <button disabled={per !== null && per < 100} type="submit">

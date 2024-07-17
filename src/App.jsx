@@ -13,7 +13,7 @@ import { DarkModeContext } from "./context/darkModeContext";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; // import dari react-router-dom
 import { AuthContext } from "./context/AuthContext";
-import { productInputs, userInputs } from "./formsource"; // import dari formsource.jsx
+import { productInputs, userInputs, categoriesInputs } from "./formsource"; // import dari formsource.jsx
 
 import { userColumns, productColumns } from "./datatablesource";
 
@@ -111,11 +111,40 @@ function App() {
                 index
                 element={
                   <RequireAuth>
+                    <Mylist columns={productColumns} />
+                  </RequireAuth>
+                }
+              ></Route>
+
+              <Route
+                path=":categoriesId"
+                element={
+                  <RequireAuth>
+                    <Single columns={productColumns} />
+                  </RequireAuth>
+                }
+              ></Route>
+
+              <Route
+                path="new"
+                element={
+                  <RequireAuth>
+                    <New inputs={categoriesInputs} title="Add New Categories" />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+
+            {/* <Route path="categories">
+              <Route
+                index
+                element={
+                  <RequireAuth>
                     <Mylist />
                   </RequireAuth>
                 }
               ></Route>
-            </Route>
+            </Route> */}
           </Route>
         </Routes>
       </BrowserRouter>
