@@ -34,7 +34,7 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="top">
         <Link to="/">
-          <span className="logo">Store</span>
+          <span className="logo">Salsa Store</span>
         </Link>
       </div>
       <hr />
@@ -64,7 +64,7 @@ const Sidebar = () => {
           </li>
 
           <Link to="/categories">
-            <li>
+            <li data-testid="categories">
               <CategoryIcon className="icon" />
               <span>Categories</span>
             </li>

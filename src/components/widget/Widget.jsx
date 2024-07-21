@@ -42,11 +42,11 @@ const Widget = ({ type }) => {
         link: "See all products",
         query: "products",
         icon: (
-          <PersonOutlinedIcon
+          <ShoppingCartOutlinedIcon
             className="icon"
             style={{
-              color: "crimson",
-              backgroundColor: "rgba(255, 0, 0, 0.2)",
+              color: "goldenrod",
+              backgroundColor: "rgba(218, 165, 32, 0.2)",
             }}
           />
         ),
@@ -63,8 +63,8 @@ const Widget = ({ type }) => {
           <PersonOutlinedIcon
             className="icon"
             style={{
-              color: "crimson",
-              backgroundColor: "rgba(255, 0, 0, 0.2)",
+              color: "green",
+              backgroundColor: "rgba(0, 128, 0, 0.2)",
             }}
           />
         ),
